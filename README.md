@@ -1,0 +1,2 @@
+Wersja demo zeby zobaczyc czy chociaz cos dziala. Trzy przyciski, jeden od pomiaru temp na cpu i gpu, drugi do zatrzymania pomiarow, trzeci do wyslania 
+stringa do arduino, Jak plytka odbierze sygnal wtedy zapala na sekundę diodę od pinu 9
