@@ -12,16 +12,17 @@ from kivy.clock import Clock
 clr.AddReference(r'C:\Users\Marcin\PycharmProjects\ArduinoDisplay\OpenHardwareMonitorLib')
 from OpenHardwareMonitor.Hardware import Computer
 
-class DisplayMonitor(App):
+class PCDisplay(App):
     def build(self):
         self.monitoring = False
         self.c = None
+        self.data = "Test message"
+
         try:
-            self.ser = serial.Serial('COM3', 9600, timeout=1)
+            self.ser = serial.Serial('COM4', 9600, timeout=1)
         except serial.SerialException as e:
             print(f"Failed to open serial port: {e}")
             self.ser = None
-        self.data = 'Liza kwiatuszek\n'  # Dodanie znaku nowej linii
 
         # Layout
         layout = BoxLayout(orientation='vertical', padding=10, spacing=5)
@@ -53,6 +54,8 @@ class DisplayMonitor(App):
                 print(f"Error sending data: {e}")
 
     def start_button_click(self, instance):
+        self.label1.text = "Monitoring start"
+        self.label2.text = "Monitoring start"
         if not self.monitoring:
             if not self.c:
                 self.initialize_hardware()
@@ -85,14 +88,28 @@ class DisplayMonitor(App):
                     hardware.Update()
                     for sensor in hardware.Sensors:
                         if "amdcpu/0/temperature" in str(sensor.Identifier):
-                            temp = sensor.get_Value()
-                            Clock.schedule_once(lambda dt: setattr(self.label1, 'text', f"CPU Temp: {temp:.1f}°C"))
+                            tempcpu = sensor.get_Value()
                         if "nvidiagpu/0/temperature/0" in str(sensor.Identifier):
-                            temp = sensor.get_Value()
-                            Clock.schedule_once(lambda dt: setattr(self.label2, 'text', f"GPU Temp: {temp:.1f}°C"))
+                            tempgpu = sensor.get_Value()
+                
+                # Schedule UI update on the main thread
+                Clock.schedule_once(lambda dt: self.update_ui(tempcpu, tempgpu))
+
+                # Send data to Arduino
+                if self.ser and self.ser.is_open:
+                    try:
+                        self.ser.write(f"{tempcpu:.2f},{tempgpu:.2f}\n".encode())
+                    except Exception as e:
+                        print(f"Error sending data: {e}")
+
             else:
                 print("No hardware components found or hardware not initialized.")
+
             time.sleep(2)
+
+    def update_ui(self, tempcpu, tempgpu):
+        self.label1.text = f"CPU Temp: {tempcpu:.2f}°C"
+        self.label2.text = f"GPU Temp: {tempgpu:.2f}°C"
 
     def on_stop(self):
         if self.ser and self.ser.is_open:
@@ -102,4 +119,4 @@ class DisplayMonitor(App):
                 print(f"Error closing serial port: {e}")
 
 if __name__ == '__main__':
-    DisplayMonitor().run()
+    PCDisplay().run()

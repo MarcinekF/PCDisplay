@@ -1,2 +1,1 @@
-Wersja demo zeby zobaczyc czy chociaz cos dziala. Trzy przyciski, jeden od pomiaru temp na cpu i gpu, drugi do zatrzymania pomiarow, trzeci do wyslania 
-stringa do arduino, Jak plytka odbierze sygnal wtedy zapala na sekundę diodę od pinu 9
+Program jest w stanie pokazać na ekranie temperature cpu i gpu (legitne). Kod wygląda średnio ale za to działa też średnio, czyli wszystko jest super
