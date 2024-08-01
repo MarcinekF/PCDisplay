@@ -1,4 +1,0 @@
-2024-07-30 17:33:29 - /nvidiagpu/0 - /nvidiagpu/0/temperature/0: 47.0°C
-2024-07-30 17:33:30 - /nvidiagpu/0 - /nvidiagpu/0/temperature/0: 47.0°C
-2024-07-30 17:33:31 - /nvidiagpu/0 - /nvidiagpu/0/temperature/0: 47.0°C
-2024-07-30 17:33:32 - /nvidiagpu/0 - /nvidiagpu/0/temperature/0: 47.0°C

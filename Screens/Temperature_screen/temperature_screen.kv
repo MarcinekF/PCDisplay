@@ -1,0 +1,28 @@
+#:kivy 2.0.0
+<TemperatureScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 10
+        spacing: 10
+
+        Image:
+            id: display_image
+            source: 'C:/Users/Marcin/Desktop/PCDisplay/Assets/display.png'
+            size_hint: (None, None)
+            size: (360,337)
+        Label:
+            id: status_label
+            text: ""
+            font_size: '24sp'
+
+        Button:
+            text: "Zatwiedz"
+            size_hint: (None, None)
+            size: (200, 50)
+            on_press: root.start_measurement()
+
+        Button:
+            text: "Powrot"
+            size_hint: (None, None)
+            size: (200, 50)
+            on_press: root.go_back()

@@ -1,0 +1,12 @@
+#:kivy 2.0.0
+<SettingsScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 10
+        spacing: 10
+
+        Button:
+            text: "Powrot"
+            size_hint: (None, None)
+            size: (200, 50)
+            on_press: root.go_back()
