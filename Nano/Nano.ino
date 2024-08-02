@@ -11,7 +11,8 @@ String task = "";
 String gpuModel = "";
 String cpuModel = "";
 String receivedMessage = "";
-int messageCounter = 0;
+char incomingChar = "";
+
 
 Adafruit_SH1106G display = Adafruit_SH1106G(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
@@ -73,16 +74,51 @@ void setup()
       }
     }
   }
+  receivedMessage = "";
 }
 
 void loop() 
 {
-  static String receivedMessage = ""; // Store received text outside of loop
+  static String inputText = ""; // Przechowuj tekst poza funkcją loop
+
   while (Serial.available()) 
   {
-    char incomingChar = Serial.read(); // Read a character from the serial buffer
-    if (incomingChar == '\n') 
+    if (task == "Measure")
     {
+      measure_temp();
+    }
+    
+
+    else
+    {
+    char c = Serial.read(); // Odczytaj pojedynczy znak
+
+    if (c == '\n' || c == '\r') {
+
+      if (inputText.length() > 0) 
+      {
+        task = inputText;
+        
+        inputText = "";
+      }
+    } 
+    
+    else 
+    {
+      // Dodaj znak do zgromadzonego tekstu
+      inputText += c;
+    }
+    }
+
+  }
+}
+
+void measure_temp()
+{
+  
+      char incomingChar = Serial.read(); // Read a character from the serial buffer
+      if (incomingChar == '\n') 
+      {
       // If newline character received, process and display the message
       display.clearDisplay();
       display.setCursor(0, 0);
@@ -121,7 +157,4 @@ void loop()
       // Append the character to the received message
       receivedMessage += incomingChar;
     }
-  }
 }
-
-

@@ -17,6 +17,13 @@ class TemperatureScreen(Screen):
     def start_measurement(self):
         self.ids.status_label.text = "ok"
 
+        if self.manager.ser and self.manager.ser.is_open:
+            try:
+                self.manager.ser.write("Measure\n".encode())
+                time.sleep(0.2)
+            except Exception as e:
+                print(f"Error sending data: {e}")
+
         if not self.monitoring:
             if not self.c:
                 self.initialize_hardware()
@@ -54,6 +61,7 @@ class TemperatureScreen(Screen):
                 if self.manager.ser and self.manager.ser.is_open:
                     try:
                         self.manager.ser.write(f"{tempcpu},{tempgpu}\n".encode())
+                        print(f"{tempcpu},{tempgpu}\n".encode())
                     except Exception as e:
                         print(f"Error sending data: {e}")
 
