@@ -6,12 +6,13 @@ from kivy.app import App
 from Screens.Main_screen.main_screen import MainScreen
 from Screens.Temperature_screen.temperature_screen import TemperatureScreen
 from Screens.Settings_screen.settings_screen import SettingsScreen
-
+from hardware_monitor import get_computer
 
 class WindowManager(ScreenManager):
     def __init__(self, **kwargs):
         super(WindowManager, self).__init__(**kwargs)
         self.ser = None
+        self.c = get_computer()
 
 class PCDisplay(App):
     def build(self):
