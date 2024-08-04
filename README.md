@@ -1,1 +1,1 @@
-Program jest w stanie pokazać na ekranie temperature cpu i gpu (legitne). Kod wygląda średnio ale za to działa też średnio, czyli wszystko jest super
+Program jest w stanie pokazać na ekranie temperature cpu i gpu z poziomu aplikacji. Ma równiez opcje bongo cata
