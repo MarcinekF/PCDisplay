@@ -1,0 +1,18 @@
+#:kivy 2.0.0
+<BongoCatScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 10
+        spacing: 10
+
+        Button:
+            text: "Zatwiedz"
+            size_hint: (None, None)
+            size: (200, 50)
+            on_press: root.start_bongo()
+
+        Button:
+            text: "Powrot"
+            size_hint: (None, None)
+            size: (200, 50)
+            on_press: root.go_back()

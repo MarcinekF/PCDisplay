@@ -6,6 +6,8 @@ from kivy.app import App
 from Screens.Main_screen.main_screen import MainScreen
 from Screens.Temperature_screen.temperature_screen import TemperatureScreen
 from Screens.Settings_screen.settings_screen import SettingsScreen
+from Screens.Bongo_cat_screen.bongo_cat_screen import BongoCatScreen
+
 from hardware_monitor import get_computer
 
 class WindowManager(ScreenManager):
@@ -13,6 +15,7 @@ class WindowManager(ScreenManager):
         super(WindowManager, self).__init__(**kwargs)
         self.ser = None
         self.c = get_computer()
+        self.monitoring = False
 
 class PCDisplay(App):
     def build(self):
@@ -21,12 +24,14 @@ class PCDisplay(App):
         Builder.load_file('screens/main_screen/main_screen.kv')
         Builder.load_file('screens/temperature_screen/temperature_screen.kv')
         Builder.load_file('screens/settings_screen/settings_screen.kv')
+        Builder.load_file('screens/bongo_cat_screen/bongo_cat_screen.kv')
 
         # Initialize ScreenManager and add screens
         sm = WindowManager()
         sm.add_widget(MainScreen(name='main_screen'))
         sm.add_widget(TemperatureScreen(name='temperature_screen'))
         sm.add_widget(SettingsScreen(name='settings_screen'))
+        sm.add_widget(BongoCatScreen(name='bongo_cat_screen'))
 
         return sm
 

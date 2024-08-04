@@ -12,6 +12,9 @@ class MainScreen(Screen):
         super().__init__(**kwargs)
         self.c = get_computer()
 
+    def go_to_bongo_cat_screen(self):
+        self.manager.current = 'bongo_cat_screen'
+
     def go_to_settings_screen(self):
         self.manager.current = 'settings_screen'
 

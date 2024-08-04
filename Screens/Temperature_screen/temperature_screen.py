@@ -9,7 +9,6 @@ class TemperatureScreen(Screen):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.monitoring = False
         self.c = get_computer()
         self.tempcpu=0
         self.tempgpu=0
@@ -19,18 +18,20 @@ class TemperatureScreen(Screen):
 
         if self.manager.ser and self.manager.ser.is_open:
             try:
+                self.manager.ser.write("Stop\n".encode())
+                time.sleep(0.2)
                 self.manager.ser.write("Measure\n".encode())
                 time.sleep(0.2)
             except Exception as e:
                 print(f"Error sending data: {e}")
 
-        if not self.monitoring:
+        if not self.manager.monitoring:
             if not self.c:
                 self.initialize_hardware()
-            self.monitoring = True
-            if not hasattr(self, 'monitoring_thread') or not self.monitoring_thread.is_alive():
-                self.monitoring_thread = threading.Thread(target=self.monitor_hardware)
-                self.monitoring_thread.start()
+            self.manager.monitoring = True
+            if not hasattr(self, 'monitoring_thread') or not self.manager.monitoring_thread.is_alive():
+                self.manager.monitoring_thread = threading.Thread(target=self.monitor_hardware)
+                self.manager.monitoring_thread.start()
 
     def go_back(self):
         self.ids.status_label.text = ""
@@ -45,7 +46,7 @@ class TemperatureScreen(Screen):
             print(f"Failed to initialize hardware: {e}")
 
     def monitor_hardware(self):
-        while self.monitoring:
+        while self.manager.monitoring:
             if self.c and len(self.c.Hardware) > 0:
                 for hardware in self.c.Hardware:
                     hardware.Update()
@@ -61,7 +62,6 @@ class TemperatureScreen(Screen):
                 if self.manager.ser and self.manager.ser.is_open:
                     try:
                         self.manager.ser.write(f"{tempcpu},{tempgpu}\n".encode())
-                        print(f"{tempcpu},{tempgpu}\n".encode())
                     except Exception as e:
                         print(f"Error sending data: {e}")
 
